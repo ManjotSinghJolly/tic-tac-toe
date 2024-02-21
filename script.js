@@ -25,3 +25,11 @@ const gameControl = {
   //4. updating the gameboard after each move
   //5. ending the game when a winner is found or the game ends in a draw
 };
+
+// To test the console version of the game:
+// Making "instances" of our objects
+
+//const gameControl = new GameControl();
+//const playerOne = new Player("Player 1", "X");
+//const playerTwo = new Player("Player 2", "O");
+//gameControl.startGame(playerOne, playerTwo);
