@@ -64,11 +64,10 @@ const GameControl = {
     }
     return { rowIndex, columnIndex };
   },
+  //3. checking for a winner
+  //4. updating the gameboard after each move
+  //5. ending the game when a winner is found or the game ends in a draw
 };
-
-//3. checking for a winner
-//4. updating the gameboard after each move
-//5. ending the game when a winner is found or the game ends in a draw
 
 // To test the console version of the game:
 // Making "instances" of our objects
