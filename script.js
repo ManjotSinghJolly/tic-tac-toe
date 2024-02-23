@@ -30,7 +30,7 @@ const GameControl = {
   //2. determining whose turn it is
   getPlayerMove() {
     let movePosition;
-    for (let turn = 1; turn <= 3; turn++) {
+    for (let turn = 1; turn <= 9; turn++) {
       if (turn % 2 !== 0) {
         console.log(`It is ${firstPlayer.name}'s turn.`);
         movePosition = prompt("Enter a square number: ");
@@ -38,6 +38,18 @@ const GameControl = {
         const { rowIndex, columnIndex } = this.makeIndex(movePosition);
         Gameboard.boardArray[rowIndex][columnIndex] = firstPlayer.marker;
         console.log(Gameboard.boardArray);
+        const winner = this.checkWinner(Gameboard.boardArray);
+        if (winner) {
+          if (winner === "draw") {
+            console.log("It's a draw!");
+            break;
+          } else {
+            console.log("The winner is: " + winner);
+            break;
+          }
+        } else {
+          console.log("No winner yet.");
+        }
       } else if (turn % 2 === 0) {
         console.log(`It is ${secondPlayer.name}'s turn.`);
         movePosition = prompt("Enter a square number: ");
@@ -45,6 +57,18 @@ const GameControl = {
         const { rowIndex, columnIndex } = this.makeIndex(movePosition);
         Gameboard.boardArray[rowIndex][columnIndex] = secondPlayer.marker;
         console.log(Gameboard.boardArray);
+        const winner = this.checkWinner(Gameboard.boardArray);
+        if (winner) {
+          if (winner === "draw") {
+            console.log("It's a draw!");
+            break;
+          } else {
+            console.log("The winner is: " + winner);
+            break;
+          }
+        } else {
+          console.log("No winner yet.");
+        }
       }
     }
   },
@@ -65,6 +89,52 @@ const GameControl = {
     return { rowIndex, columnIndex };
   },
   //3. checking for a winner
+  checkWinner(board) {
+    // Checking for a winning combination in the rows
+    for (let row = 0; row <= 2; row++) {
+      if (board[row][0] === board[row][1] && board[row][1] === board[row][2]) {
+        // Returning the marker of the winning player
+        return board[row][0];
+      }
+    }
+
+    // Checking for a winning combination in the columns
+    for (let col = 0; col <= 2; col++) {
+      if (board[col][0] === board[col][0] && board[col][1] === board[col][2]) {
+        // Returning the marker of the winning player
+        return board[col][0];
+      }
+    }
+
+    // Checking for a winning combination in the diagonals
+    if (
+      (board[0][0] === board[1][1] && board[1][1] === board[2][2]) ||
+      (board[0][2] === board[1][1] && board[1][1] === board[2][0])
+    ) {
+      // Returning the center element which is common in both the diagonals and is the marker of the winning player
+      if (board[1][1] !== null) {
+        return board[1][1];
+      }
+    }
+
+    // Checking if there is a draw;
+    let isDraw = true;
+    for (let row = 0; row <= 2; row++) {
+      for (let col = 0; col <= 2; col++) {
+        if (board[row][col] === null) {
+          isDraw = false;
+          break;
+        }
+      }
+    }
+
+    if (isDraw) {
+      console.log("It is a draw");
+    }
+
+    return null;
+  },
+
   //4. updating the gameboard after each move
   //5. ending the game when a winner is found or the game ends in a draw
 };
@@ -74,5 +144,6 @@ const GameControl = {
 
 // GameControl.startGame();
 
+// Calling the functions for testing
 GameControl.startGame();
 GameControl.getPlayerMove();
