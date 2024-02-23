@@ -30,48 +30,43 @@ const GameControl = {
   //2. determining whose turn it is
   getPlayerMove() {
     let movePosition;
+    let winner = null; // Initialize winner variable outside the loop
     for (let turn = 1; turn <= 9; turn++) {
       if (turn % 2 !== 0) {
         console.log(`It is ${firstPlayer.name}'s turn.`);
-        movePosition = prompt("Enter a square number: ");
-        movePosition = Number(movePosition);
-        const { rowIndex, columnIndex } = this.makeIndex(movePosition);
-        Gameboard.boardArray[rowIndex][columnIndex] = firstPlayer.marker;
-        console.log(Gameboard.boardArray);
-        const winner = this.checkWinner(Gameboard.boardArray);
-        if (winner) {
-          if (winner === "draw") {
-            console.log("It's a draw!");
-            break;
-          } else {
-            console.log("The winner is: " + winner);
-            break;
-          }
-        } else {
-          console.log("No winner yet.");
-        }
-      } else if (turn % 2 === 0) {
+      } else {
         console.log(`It is ${secondPlayer.name}'s turn.`);
-        movePosition = prompt("Enter a square number: ");
-        movePosition = Number(movePosition);
-        const { rowIndex, columnIndex } = this.makeIndex(movePosition);
+      }
+
+      movePosition = prompt("Enter a square number: ");
+      movePosition = Number(movePosition);
+      const { rowIndex, columnIndex } = this.makeIndex(movePosition);
+
+      if (turn % 2 !== 0) {
+        Gameboard.boardArray[rowIndex][columnIndex] = firstPlayer.marker;
+      } else {
         Gameboard.boardArray[rowIndex][columnIndex] = secondPlayer.marker;
-        console.log(Gameboard.boardArray);
-        const winner = this.checkWinner(Gameboard.boardArray);
-        if (winner) {
-          if (winner === "draw") {
-            console.log("It's a draw!");
-            break;
-          } else {
-            console.log("The winner is: " + winner);
-            break;
-          }
-        } else {
-          console.log("No winner yet.");
-        }
+      }
+
+      console.log(Gameboard.boardArray);
+      winner = this.checkWinner(Gameboard.boardArray);
+      if (winner) {
+        break; // Exit the loop if a winner or draw is found
       }
     }
+
+    // After the loop completes
+    if (winner) {
+      if (winner === "draw") {
+        console.log("It's a draw!");
+      } else {
+        console.log("The winner is: " + winner);
+      }
+    } else {
+      console.log("No winner yet.");
+    }
   },
+
   // Function to convert the number entered into an array index
   makeIndex(squareNumber) {
     let rowIndex;
@@ -102,7 +97,7 @@ const GameControl = {
     for (let col = 0; col <= 2; col++) {
       if (board[0][col] === board[1][col] && board[1][col] === board[2][col]) {
         // Returning the marker of the winning player
-        return board[col][0];
+        return board[0][col];
       }
     }
 
