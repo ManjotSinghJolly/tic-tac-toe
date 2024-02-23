@@ -100,7 +100,7 @@ const GameControl = {
 
     // Checking for a winning combination in the columns
     for (let col = 0; col <= 2; col++) {
-      if (board[col][0] === board[col][0] && board[col][1] === board[col][2]) {
+      if (board[0][col] === board[1][col] && board[1][col] === board[2][col]) {
         // Returning the marker of the winning player
         return board[col][0];
       }
