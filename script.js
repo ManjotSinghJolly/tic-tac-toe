@@ -31,11 +31,14 @@ const GameControl = {
   getPlayerMove() {
     let movePosition;
     let winner = null; // Initialize winner variable outside the loop
+    let turnStatus = document.getElementById("turn-status");
     for (let turn = 1; turn <= 9; turn++) {
       if (turn % 2 !== 0) {
         console.log(`It is ${firstPlayer.name}'s turn.`);
+        turnStatus.innerHTML = `It is ${firstPlayer.name}'s turn.`;
       } else {
         console.log(`It is ${secondPlayer.name}'s turn.`);
+        turnStatus.innerHTML = `It is ${secondPlayer.name}'s turn.`;
       }
 
       let rowIndex, columnIndex;
@@ -148,6 +151,7 @@ const GameControl = {
 // Making the object to handle the display logic
 const displayController = {
   // Function to render the 2-D array to the webpage
+
   renderBoard() {
     const body = document.body;
     const cellContainer = document.createElement("div");
@@ -156,10 +160,18 @@ const displayController = {
     for (let rowNumber = 0; rowNumber < 3; rowNumber++) {
       for (let colNumber = 0; colNumber < 3; colNumber++) {
         //creating a div HTML element called cell
-        let cell = document.createElement("div");
+        const cell = document.createElement("div");
+
+        //setting the row and column data attributes of each cell
+        cell.setAttribute("data-row", rowNumber);
+        cell.setAttribute("data-col", colNumber);
 
         // setting its css class
         cell.classList.add("cell");
+
+        cell.addEventListener("click", function () {
+          displayController.enterMarker(cell);
+        });
 
         cellContainer.appendChild(cell);
 
@@ -168,9 +180,18 @@ const displayController = {
       }
     }
   },
+
+  enterMarker(cell) {
+    console.log(
+      "Cell clicked:",
+      cell.getAttribute("data-row"),
+      cell.getAttribute("data-col")
+    );
+  },
 };
 
 // Calling the functions for testing
 // GameControl.startGame();
 // GameControl.getPlayerMove();
 displayController.renderBoard();
+displayController.enterMarker();
