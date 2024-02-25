@@ -38,16 +38,27 @@ const GameControl = {
         console.log(`It is ${secondPlayer.name}'s turn.`);
       }
 
-      movePosition = prompt("Enter a square number: ");
-      movePosition = Number(movePosition);
-      const { rowIndex, columnIndex } = this.makeIndex(movePosition);
+      let rowIndex, columnIndex;
+
+      do {
+        movePosition = prompt("Enter a square number: ");
+        movePosition = Number(movePosition);
+        const indexes = this.makeIndex(movePosition);
+        rowIndex = indexes.rowIndex;
+        columnIndex = indexes.columnIndex;
+
+        if (Gameboard.boardArray[rowIndex][columnIndex] !== null) {
+          console.log(
+            "That square is already occupied. Please choose another square."
+          );
+        }
+      } while (Gameboard.boardArray[rowIndex][columnIndex] !== null);
 
       if (turn % 2 !== 0) {
         Gameboard.boardArray[rowIndex][columnIndex] = firstPlayer.marker;
       } else {
         Gameboard.boardArray[rowIndex][columnIndex] = secondPlayer.marker;
       }
-
       console.log(Gameboard.boardArray);
       winner = this.checkWinner(Gameboard.boardArray);
       if (winner) {
