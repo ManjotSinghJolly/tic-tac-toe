@@ -182,9 +182,15 @@ const displayController = {
 
         // setting its css class
         cell.classList.add("cell");
-        cell.addEventListener("click", function () {
-          displayController.enterMarker(cell);
-        });
+
+        // Adding click event listener to each cell
+        cell.addEventListener(
+          "click",
+          function () {
+            displayController.enterMarker(cell);
+          },
+          { once: true }
+        );
 
         cellContainer.appendChild(cell);
 
