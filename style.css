@@ -16,6 +16,9 @@
   width: 100px;
   height: 100px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #turn-status {
