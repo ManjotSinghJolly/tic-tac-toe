@@ -168,7 +168,6 @@ const displayController = {
 
         // setting its css class
         cell.classList.add("cell");
-
         cell.addEventListener("click", function () {
           displayController.enterMarker(cell);
         });
@@ -182,11 +181,9 @@ const displayController = {
   },
 
   enterMarker(cell) {
-    console.log(
-      "Cell clicked:",
-      cell.getAttribute("data-row"),
-      cell.getAttribute("data-col")
-    );
+    if (cell) {
+      console.log(cell.getAttribute("data-row"), cell.getAttribute("data-col"));
+    }
   },
 };
 
