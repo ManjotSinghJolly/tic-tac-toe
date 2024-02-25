@@ -17,6 +17,7 @@ function Player(name, marker) {
 // Making the game control object
 const GameControl = {
   turn: 1,
+  winner: null,
   firstPlayer: null,
   secondPlayer: null,
   // 1. starting the game
@@ -40,6 +41,16 @@ const GameControl = {
       console.log(Gameboard.boardArray);
     }
     GameControl.turn++;
+    winner = this.checkWinner(Gameboard.boardArray);
+    if (winner) {
+      if (winner === "draw") {
+        console.log("It's a draw!");
+      } else {
+        console.log("The winner is: " + winner);
+      }
+    } else {
+      console.log("No winner yet.");
+    }
 
     // REAL CODE STARTS HERE
     // let movePosition;
@@ -187,9 +198,16 @@ const displayController = {
         cell.addEventListener(
           "click",
           function () {
-            displayController.enterMarker(cell);
+            winningCondition = GameControl.checkWinner(Gameboard.boardArray);
+            if (winningCondition) {
+              return;
+            } else {
+              displayController.enterMarker(cell);
+            }
           },
-          { once: true }
+          {
+            once: true,
+          }
         );
 
         cellContainer.appendChild(cell);
