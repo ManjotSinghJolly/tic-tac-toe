@@ -145,11 +145,32 @@ const GameControl = {
   //5. ending the game when a winner is found or the game ends in a draw
 };
 
-// To test the console version of the game:
-// Making "instances" of our objects
+// Making the object to handle the display logic
+const displayController = {
+  // Function to render the 2-D array to the webpage
+  renderBoard() {
+    const body = document.body;
+    const cellContainer = document.createElement("div");
+    cellContainer.classList.add("cellContainer");
 
-// GameControl.startGame();
+    for (let rowNumber = 0; rowNumber < 3; rowNumber++) {
+      for (let colNumber = 0; colNumber < 3; colNumber++) {
+        //creating a div HTML element called cell
+        let cell = document.createElement("div");
+
+        // setting its css class
+        cell.classList.add("cell");
+
+        cellContainer.appendChild(cell);
+
+        //adding the div element to the body
+        body.appendChild(cellContainer);
+      }
+    }
+  },
+};
 
 // Calling the functions for testing
-GameControl.startGame();
-GameControl.getPlayerMove();
+// GameControl.startGame();
+// GameControl.getPlayerMove();
+displayController.renderBoard();
