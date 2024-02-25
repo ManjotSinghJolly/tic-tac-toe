@@ -16,6 +16,7 @@ function Player(name, marker) {
 
 // Making the game control object
 const GameControl = {
+  turn: 1,
   firstPlayer: null,
   secondPlayer: null,
   // 1. starting the game
@@ -28,57 +29,70 @@ const GameControl = {
     console.log(secondPlayer);
   },
   //2. determining whose turn it is
-  getPlayerMove() {
-    let movePosition;
-    let winner = null; // Initialize winner variable outside the loop
-    let turnStatus = document.getElementById("turn-status");
-    for (let turn = 1; turn <= 9; turn++) {
-      if (turn % 2 !== 0) {
-        console.log(`It is ${firstPlayer.name}'s turn.`);
-        turnStatus.innerHTML = `It is ${firstPlayer.name}'s turn.`;
-      } else {
-        console.log(`It is ${secondPlayer.name}'s turn.`);
-        turnStatus.innerHTML = `It is ${secondPlayer.name}'s turn.`;
-      }
-
-      let rowIndex, columnIndex;
-
-      do {
-        movePosition = prompt("Enter a square number: ");
-        movePosition = Number(movePosition);
-        const indexes = this.makeIndex(movePosition);
-        rowIndex = indexes.rowIndex;
-        columnIndex = indexes.columnIndex;
-
-        if (Gameboard.boardArray[rowIndex][columnIndex] !== null) {
-          console.log(
-            "That square is already occupied. Please choose another square."
-          );
-        }
-      } while (Gameboard.boardArray[rowIndex][columnIndex] !== null);
-
-      if (turn % 2 !== 0) {
-        Gameboard.boardArray[rowIndex][columnIndex] = firstPlayer.marker;
-      } else {
-        Gameboard.boardArray[rowIndex][columnIndex] = secondPlayer.marker;
-      }
+  getPlayerMove(rowIndex, colIndex, turn) {
+    if (GameControl.turn % 2 !== 0) {
+      Gameboard.boardArray[rowIndex][colIndex] = firstPlayer.marker;
+      turn++;
       console.log(Gameboard.boardArray);
-      winner = this.checkWinner(Gameboard.boardArray);
-      if (winner) {
-        break; // Exit the loop if a winner or draw is found
-      }
-    }
-
-    // After the loop completes
-    if (winner) {
-      if (winner === "draw") {
-        console.log("It's a draw!");
-      } else {
-        console.log("The winner is: " + winner);
-      }
     } else {
-      console.log("No winner yet.");
+      Gameboard.boardArray[rowIndex][colIndex] = secondPlayer.marker;
+      turn++;
+      console.log(Gameboard.boardArray);
     }
+    GameControl.turn++;
+
+    // REAL CODE STARTS HERE
+    // let movePosition;
+    // let winner = null; // Initialize winner variable outside the loop
+    // let turnStatus = document.getElementById("turn-status");
+    // for (let turn = 1; turn <= 9; turn++) {
+    //   if (turn % 2 !== 0) {
+    //     console.log(`It is ${firstPlayer.name}'s turn.`);
+    //     turnStatus.innerHTML = `It is ${firstPlayer.name}'s turn.`;
+    //   } else {
+    //     console.log(`It is ${secondPlayer.name}'s turn.`);
+    //     turnStatus.innerHTML = `It is ${secondPlayer.name}'s turn.`;
+    //   }
+
+    //   let rowIndex, columnIndex;
+
+    //   do {
+    //     movePosition = prompt("Enter a square number: ");
+    //     movePosition = Number(movePosition);
+    //     const indexes = this.makeIndex(movePosition);
+    //     rowIndex = indexes.rowIndex;
+    //     columnIndex = indexes.columnIndex;
+
+    //     if (Gameboard.boardArray[rowIndex][columnIndex] !== null) {
+    //       console.log(
+    //         "That square is already occupied. Please choose another square."
+    //       );
+    //     }
+    //   } while (Gameboard.boardArray[rowIndex][columnIndex] !== null);
+
+    //   if (turn % 2 !== 0) {
+    //     Gameboard.boardArray[rowIndex][columnIndex] = firstPlayer.marker;
+    //   } else {
+    //     Gameboard.boardArray[rowIndex][columnIndex] = secondPlayer.marker;
+    //   }
+    //   console.log(Gameboard.boardArray);
+    //   winner = this.checkWinner(Gameboard.boardArray);
+    //   if (winner) {
+    //     break; // Exit the loop if a winner or draw is found
+    //   }
+    // }
+
+    // // After the loop completes
+    // if (winner) {
+    //   if (winner === "draw") {
+    //     console.log("It's a draw!");
+    //   } else {
+    //     console.log("The winner is: " + winner);
+    //   }
+    // } else {
+    //   console.log("No winner yet.");
+    // }
+    //REAL CODE ENDS HERE
   },
 
   // Function to convert the number entered into an array index
@@ -182,13 +196,18 @@ const displayController = {
 
   enterMarker(cell) {
     if (cell) {
-      console.log(cell.getAttribute("data-row"), cell.getAttribute("data-col"));
+      // console.log(cell.getAttribute("data-row"), cell.getAttribute("data-col"));
+      let rowCoord = cell.getAttribute("data-row");
+      let colCoord = cell.getAttribute("data-col");
+
+      GameControl.getPlayerMove(rowCoord, colCoord);
+      cell.innerHTML = Gameboard.boardArray[rowCoord][colCoord];
     }
   },
 };
 
 // Calling the functions for testing
-// GameControl.startGame();
+GameControl.startGame();
 // GameControl.getPlayerMove();
 displayController.renderBoard();
 displayController.enterMarker();
