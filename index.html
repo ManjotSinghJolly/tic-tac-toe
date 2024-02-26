@@ -10,5 +10,27 @@
   </head>
   <body>
     <h1>Tic Tac Toe Game</h1>
+    <dialog class="modal">
+      <form id="player-form" method="dialog">
+        <h1>Tic-Tac-Toe Game</h1>
+        <label for="player-x">Player X:</label>
+        <input
+          type="text"
+          id="player-x"
+          name="player-x"
+          placeholder="Enter a name"
+          required
+        /><br /><br />
+        <label for="player-o">Player O:</label>
+        <input
+          type="text"
+          id="player-o"
+          name="player-o"
+          placeholder="Enter a name"
+          required
+        /><br /><br />
+        <input type="submit" value="Start Game" id="start-game" />
+      </form>
+    </dialog>
   </body>
 </html>

@@ -22,12 +22,32 @@ const GameControl = {
   secondPlayer: null,
   // 1. starting the game
   startGame() {
-    let playerOne = prompt("Enter the name of the player 'X': ");
-    let playerTwo = prompt("Enter the name of the player 'O': ");
-    firstPlayer = new Player(playerOne, "X");
-    secondPlayer = new Player(playerTwo, "O");
-    console.log(firstPlayer);
-    console.log(secondPlayer);
+    // let playerOne = prompt("Enter the name of the player 'X': ");
+    // let playerTwo = prompt("Enter the name of the player 'O': ");
+    // firstPlayer = new Player(playerOne, "X");
+    // secondPlayer = new Player(playerTwo, "O");
+    // console.log(firstPlayer);
+    // console.log(secondPlayer);
+    const dialog = document.querySelector("dialog");
+    dialog.showModal();
+    const form = document.getElementById("player-form");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      //Storing the values entered in the form fields in variables
+      const playerXname = document.getElementById("player-x").value;
+      const playerOname = document.getElementById("player-o").value;
+
+      // Making "Player" objects with the supplied names
+      firstPlayer = new Player(playerXname, "X");
+      secondPlayer = new Player(playerOname, "O");
+      console.log(firstPlayer);
+      console.log(secondPlayer);
+
+      // Resetting the form and closing the dialog box when the form
+      form.reset();
+      dialog.close();
+    });
   },
   //2. determining whose turn it is
   getPlayerMove(rowIndex, colIndex, turn) {
