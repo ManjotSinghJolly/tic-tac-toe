@@ -28,6 +28,7 @@ const GameControl = {
     // secondPlayer = new Player(playerTwo, "O");
     // console.log(firstPlayer);
     // console.log(secondPlayer);
+
     const dialog = document.querySelector("dialog");
     dialog.showModal();
     const form = document.getElementById("player-form");
@@ -44,24 +45,29 @@ const GameControl = {
       console.log(firstPlayer);
       console.log(secondPlayer);
 
-      // Resetting the form and closing the dialog box when the form
+      // Resetting the form and closing the dialog box when the form is submitted
       form.reset();
       dialog.close();
+
+      displayController.setInnerHTML(firstPlayer);
     });
   },
   //2. determining whose turn it is
   getPlayerMove(rowIndex, colIndex, turn) {
     if (GameControl.turn % 2 !== 0) {
       Gameboard.boardArray[rowIndex][colIndex] = firstPlayer.marker;
+      // turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
       turn++;
       console.log(Gameboard.boardArray);
     } else {
       Gameboard.boardArray[rowIndex][colIndex] = secondPlayer.marker;
+      // turnStatus.innerHTML = `O: ${secondPlayer.name}'s turn`;
       turn++;
       console.log(Gameboard.boardArray);
     }
     GameControl.turn++;
     winner = this.checkWinner(Gameboard.boardArray);
+
     if (winner) {
       if (winner === "draw") {
         console.log("It's a draw!");
@@ -196,6 +202,10 @@ const GameControl = {
 // Making the object to handle the display logic
 const displayController = {
   // Function to render the 2-D array to the webpage
+  turnStatus: document.getElementById("turn-status"),
+  setInnerHTML(firstPlayer) {
+    this.turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
+  },
 
   renderBoard() {
     const body = document.body;
@@ -224,6 +234,17 @@ const displayController = {
             } else {
               displayController.enterMarker(cell);
             }
+
+            displayController.updateIndicator(GameControl.turn);
+
+            // let turnStatus = document.getElementById("turn-status");
+            // turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
+
+            // if (GameControl.turn % 2 !== 0) {
+            //   turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
+            // } else if (GameControl.turn % 2 === 0) {
+            //   turnStatus.innerHTML = `O: ${secondPlayer.name}'s turn`;
+            // }
           },
           {
             once: true,
@@ -246,6 +267,15 @@ const displayController = {
 
       GameControl.getPlayerMove(rowCoord, colCoord);
       cell.innerHTML = Gameboard.boardArray[rowCoord][colCoord];
+    }
+  },
+
+  updateIndicator(turn) {
+    // displayController.turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
+    if (turn % 2 !== 0) {
+      displayController.turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
+    } else if (turn % 2 === 0) {
+      displayController.turnStatus.innerHTML = `O: ${secondPlayer.name}'s turn`;
     }
   },
 };
