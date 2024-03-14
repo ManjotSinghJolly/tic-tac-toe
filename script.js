@@ -201,12 +201,16 @@ const GameControl = {
 
 // Making the object to handle the display logic
 const displayController = {
+  // Array to store the cell elements;
+  // 2D array to store references to cell elements
+
   // Function to render the 2-D array to the webpage
   turnStatus: document.getElementById("turn-status"),
   setInnerHTML(firstPlayer) {
     this.turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
   },
 
+  // Function to make the board
   renderBoard() {
     const body = document.body;
     const cellContainer = document.createElement("div");
@@ -236,15 +240,6 @@ const displayController = {
             }
 
             displayController.updateIndicator(GameControl.turn);
-
-            // let turnStatus = document.getElementById("turn-status");
-            // turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
-
-            // if (GameControl.turn % 2 !== 0) {
-            //   turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
-            // } else if (GameControl.turn % 2 === 0) {
-            //   turnStatus.innerHTML = `O: ${secondPlayer.name}'s turn`;
-            // }
           },
           {
             once: true,
@@ -254,10 +249,12 @@ const displayController = {
         cellContainer.appendChild(cell);
 
         //adding the div element to the body
-        body.appendChild(cellContainer);
       }
     }
+    body.appendChild(cellContainer);
   },
+
+  // Function to enter marker inside the cell
 
   enterMarker(cell) {
     if (cell) {
@@ -270,6 +267,7 @@ const displayController = {
     }
   },
 
+  // Function to update the turn status text
   updateIndicator(turn) {
     // displayController.turnStatus.innerHTML = `X: ${firstPlayer.name}'s turn`;
     if (turn % 2 !== 0) {
@@ -278,6 +276,8 @@ const displayController = {
       displayController.turnStatus.innerHTML = `O: ${secondPlayer.name}'s turn`;
     }
   },
+
+  //Function to remove the markers from the cells
 };
 
 // Calling the functions for testing
@@ -285,3 +285,14 @@ GameControl.startGame();
 // GameControl.getPlayerMove();
 displayController.renderBoard();
 displayController.enterMarker();
+
+const restartGame = document.getElementById("restart-game");
+restartGame.addEventListener("click", function () {
+  // Reseting the contents of the array
+  for (let i = 0; i <= 2; i++) {
+    for (let j = 0; j <= 2; j++) {
+      Gameboard.boardArray[i][j] = null;
+    }
+  }
+  displayController.removeMarkers();
+});
